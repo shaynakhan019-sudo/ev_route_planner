@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./ev_route_planner
+    ports:
+      - "8000:8000"   # optional: lets you curl the API directly
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/locations')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
