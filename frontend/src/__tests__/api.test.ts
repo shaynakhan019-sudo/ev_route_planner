@@ -8,9 +8,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { getGraph, getLocations, findRoute } from '@/lib/api'
 
-// ADAPT: if findRoute takes an object, use: findRoute({ start, end, algorithm })
-const callFindRoute = (start: string, end: string, algorithm: string) =>
-  findRoute(start, end, algorithm)
+type RouteArgs = Parameters<typeof findRoute>[0]
+const callFindRoute = (start: string, end: string, algorithm: RouteArgs['algorithm']) =>
+  findRoute({ start, end, algorithm })
 
 const LOCATIONS = { locations: ['A', 'B', 'C'] }
 const GRAPH = {
