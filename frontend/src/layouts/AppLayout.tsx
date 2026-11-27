@@ -1,21 +1,49 @@
 
-import { Outlet } from 'react-router'
+import { useState } from 'react'
+import { Outlet, useLocation } from 'react-router'
 import { Leaf } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
 import Sidebar from '@/components/Sidebar'
 import Header from '@/components/Header'
 
 function AppLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const location = useLocation()
+
+  const closeSidebar = () => setIsSidebarOpen(false)
+
   return (
     <div className="flex min-h-screen bg-background">
 
-      <Sidebar />
+      {isSidebarOpen && (
+        <button
+          className="fixed inset-0 z-30 bg-black/40 md:hidden"
+          onClick={closeSidebar}
+          aria-label="Close sidebar overlay"
+        />
+      )}
+
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={closeSidebar}
+      />
 
       <div className="flex min-w-0 flex-1 flex-col">
 
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
         <main className="mx-auto w-full max-w-[1600px] flex-1 p-4 sm:p-6 lg:p-8">
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </main>
 
         <footer className="border-t border-border/70 bg-card/70 px-5 py-5 sm:px-8">
@@ -26,10 +54,7 @@ function AppLayout() {
                 <Leaf size={15} className="text-foreground" />
               </div>
 
-              <span className="font-medium text-foreground">
-                EcoRoute
-              </span>
-
+              <span className="font-medium text-foreground">EcoRoute</span>
               <span>· Smart Electric Mobility</span>
             </div>
 
