@@ -67,7 +67,7 @@ and serves it with Nginx, which also forwards `/api` to the backend container.
 
 ## Documentation
 
-- [docs/setup.md](docs/setup.md): installation, running, production build, troubleshooting
+- [docs/setup.md](docs/setup.md): installation,running, production build, troubleshooting
 - [docs/api.md](docs/api.md): the API contract with examples
 - [docs/structure.md](docs/structure.md): project structure and how the pieces fit together
 - [docs/testing-and-ci.md](docs/testing-and-ci.md): tests, CI pipeline and Docker details
