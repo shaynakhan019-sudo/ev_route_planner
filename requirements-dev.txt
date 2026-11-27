@@ -1,3 +1,4 @@
 -r ev_route_planner/requirements.txt
 pytest>=8.0
 ruff>=0.6
+ 
