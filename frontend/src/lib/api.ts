@@ -24,12 +24,6 @@ export interface GraphResponse {
   edges: GraphEdge[]
 }
 
-export interface RouteRequest {
-  start: string
-  end: string
-  algorithm: Algorithm
-}
-
 export interface RouteResponse {
   path: string[]
   total_distance: number
@@ -58,14 +52,16 @@ export async function getGraph(): Promise<GraphResponse> {
 }
 
 export async function findRoute(
-  request: RouteRequest
+  start: string,
+  end: string,
+  algorithm: string
 ): Promise<RouteResponse> {
   const response = await fetch(`${API_BASE_URL}/route`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(request),
+    body: JSON.stringify({ start, end, algorithm }),
   })
 
   return handleResponse<RouteResponse>(response)
